@@ -53,35 +53,6 @@ class DecodingBoard
   end
 end
 
-x = DecodingBoard.new
-x.set_pattern(['cyan', 'blue', 'magenta', 'light_blue'])
-x.full_view
-x.update_guess(1, ['cyan', 'blue', 'magenta', 'yellow'])
-x.hidden_view
-x.update_feedback(1, ['red', 'white', 'red'])
-x.hidden_view
-x.update_guess(2, ['cyan', 'blue', 'magenta', 'yellow'])
-x.update_feedback(2, ['white', 'white', 'red'])
-x.hidden_view
-
-
-# Colorize Colors
-# black
-# light_black
-# red
-# light_red
-# green
-# light_green
-# yellow
-# light_yellow
-# blue
-# light_blue
-# magenta
-# light_magenta
-# cyan
-# light_cyan
-# white
-# light_white
 
 
 

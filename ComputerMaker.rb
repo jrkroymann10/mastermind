@@ -1,4 +1,4 @@
-require 'pry'
+
 
 # Computer CodeMaker
 class ComputerMaker
@@ -73,9 +73,5 @@ class ComputerMaker
     final_fb
   end
 end
-
-cpu = ComputerMaker.new
-
-puts cpu.give_feedback(['magenta', 'cyan', 'green', 'green'], ['magenta', 'green', 'cyan', 'magenta'])
 
 
