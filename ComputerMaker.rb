@@ -2,20 +2,25 @@
 
 # Computer CodeMaker
 class ComputerMaker
-  @@COLORS = ['black', 'cyan', 'magenta', 'yellow', 'green', 'light_red', 'blue']
-  @@FB_COLORS = ['red', 'white', 'black']
-  def initialize; end
+  @@COLORS = ['cyan', 'magenta', 'yellow', 'green', 'light_red', 'blue']
+  @@FB_COLORS = ['red', 'white']
+  attr_reader :pattern
+  attr_accessor :feedback
+  def initialize
+    @pattern = select_pattern
+    @feedback = []
+  end
 
   def select_pattern
     color_array = []
     for i in 0..3
-      temp = (rand() * 6.499).round
+      temp = (rand() * 5.499).round
       color_array.push(@@COLORS[temp])
     end
     color_array
   end
 
-  def give_feedback(guess, pattern) # Hopefully arrays of strings of colors
+  def give_feedback(guess, pattern)
     temp_array = check_red(guess, pattern)
     reduced = reduce(guess, pattern)
     temp_fb = check_white(reduced[0], reduced[1] , temp_array[0])
@@ -73,5 +78,3 @@ class ComputerMaker
     final_fb
   end
 end
-
-

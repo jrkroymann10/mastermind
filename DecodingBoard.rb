@@ -7,7 +7,7 @@ class DecodingBoard
     for i in 0..23
       i.even? ? @display += ['|         |          |'] : @display += ['----------------------']
     end
-    @display += ['|                    |'] + ['----------------------']
+    @display += ['|                    |'] + ['----------------------'] + ['']
   end
 
   def set_pattern(color_array)
@@ -16,6 +16,9 @@ class DecodingBoard
     for i in 0...color_array.length()
       temp= build_color_block(color_array[i])
       @display[turn][pos] = temp
+      if color_array[i] == 'light_red'
+        pos += 1
+      end
       pos += 16
     end
   end
@@ -27,11 +30,19 @@ class DecodingBoard
       temp = build_color_block(color_array[i])
       @display[turn][pos] = temp
       pos += 16
+      if color_array[i] == 'light_red'
+        pos += 1
+      end
     end
   end
 
-  def update_feedback(turn, color_array)
+  def update_feedback(turn, color_array, guess_colors)
     pos = 68
+    for i in 0..3
+      if guess_colors[i] == 'light_red'
+        pos += 1
+      end
+    end
     turn = (turn * 2) + 1
     for i in 0...color_array.length
       temp = build_color_block(color_array[i])
@@ -50,9 +61,14 @@ class DecodingBoard
 
   def hidden_view
     puts @display[0..26]
+    puts ''
   end
 end
 
+# x = DecodingBoard.new
+# x.update_guess(1, ['cyan', 'cyan', 'magenta', 'magenta'])
+# x.update_feedback(1, ['red', 'white'], ['cyan', 'cyan', 'magenta', 'magenta'])
+# x.full_view
 
 
 

@@ -3,7 +3,6 @@
 # Human CodeBreaker
 class HumanBreaker
   @@COLOR_KEY = {
-    _: 'black',
     b: 'blue',
     c: 'cyan',
     g: 'green',
@@ -11,16 +10,17 @@ class HumanBreaker
     m: 'magenta',
     y: 'yellow'
   }
-  attr_reader :name
+  attr_reader :name, :COLOR_KEY
   def initialize(name = 'Human')
     @name = name
   end
 
-  def guess_pattern()  # transforms 4 character guess into array of strings representing colors
+  def guess_pattern()
     print "enter your guess, #{@name}: "
-    guess = gets.chomp
+    guess = gets.chomp.downcase
     guess = check_guess(guess)
-    string_to_array(guess)
+    guess = string_to_array(guess)
+    char_to_color(guess)
   end
 
   private
@@ -42,6 +42,12 @@ class HumanBreaker
   def string_to_array(guess)
     guess.split('')
   end
+
+  def char_to_color(guess)
+    colors = []
+    for i in 0..3
+      colors.push(@@COLOR_KEY[:"#{guess[i]}"])
+    end
+    colors
+  end
 end
-
-
