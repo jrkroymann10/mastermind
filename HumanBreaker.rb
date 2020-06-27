@@ -1,5 +1,3 @@
-
-
 # Human CodeBreaker
 class HumanBreaker
   @@COLOR_KEY = {
@@ -18,6 +16,7 @@ class HumanBreaker
   def guess_pattern()
     print "enter your guess, #{@name}: "
     guess = gets.chomp.downcase
+    print "\n"
     guess = check_guess(guess)
     guess = string_to_array(guess)
     char_to_color(guess)
@@ -29,7 +28,7 @@ class HumanBreaker
     count = 0
     while count < 4
       if !@@COLOR_KEY.key?(:"#{guess[count]}") || guess.length != 4
-        print "invalid guess, try again #{@name}: "
+        print "invalid guess. try again, #{@name}: "
         guess = gets.chomp
         count = 0
       else 

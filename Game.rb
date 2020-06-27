@@ -45,14 +45,14 @@ class Game
   def win_check(feedback)
     if win_condition(feedback)
       @game_board.full_view
-        puts "congrats #{@human_breaker.name}! you've guessed the correct pattern!"
+        print "congrats #{@human_breaker.name}! you've guessed the correct pattern!" + "\n"
         @turn = 12
     end
   end
 
   def lose_check(turn, feedback)
     if turn == 12 && !win_condition(feedback)
-      puts "you've failed to guess the pattern. try again, #{@human_breaker.name}"
+      print "you've failed to guess the pattern. try again, #{@human_breaker.name}" 
       @game_board.full_view
     end
   end
@@ -82,7 +82,6 @@ class Game
     colors[0][141] = 'example guess: BCGR |'
     puts colors
   end
-
 end
 
 x = Game.new

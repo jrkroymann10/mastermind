@@ -65,10 +65,6 @@ class DecodingBoard
   end
 end
 
-# x = DecodingBoard.new
-# x.update_guess(1, ['cyan', 'cyan', 'magenta', 'magenta'])
-# x.update_feedback(1, ['red', 'white'], ['cyan', 'cyan', 'magenta', 'magenta'])
-# x.full_view
 
 
 

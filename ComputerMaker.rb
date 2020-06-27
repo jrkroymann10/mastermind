@@ -1,5 +1,3 @@
-
-
 # Computer CodeMaker
 class ComputerMaker
   @@COLORS = ['cyan', 'magenta', 'yellow', 'green', 'light_red', 'blue']
