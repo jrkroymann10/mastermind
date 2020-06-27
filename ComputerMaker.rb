@@ -46,7 +46,6 @@ class ComputerMaker
       if mod_pattern.include? mod_guess[i]
         temp = mod_pattern.index(mod_guess[i])
         mod_pattern[temp] = ''
-        # binding.pry
         fb_final.push('white')
       end
     end
