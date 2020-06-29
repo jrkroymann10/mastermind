@@ -1,5 +1,3 @@
-require 'pry'
-
 class ComputerBreaker
   attr_accessor :guess_pool, :red, :white
   def initialize
@@ -7,16 +5,17 @@ class ComputerBreaker
     @guess_pool = make_pool
     @red = 0
     @white = 0
+    @name = 'cpu'
   end
 
-  def rand_guess
+  def first_pattern
     temp = rand(0..(@guess_pool.length - 1))
     @guess_pool[temp]
   end
 
-  def make_guess(guess, feedback)
+  def guess_pattern(guess, feedback)
     modify_pool(guess, feedback)
-    rand_guess
+    first_pattern
   end
 
   private
@@ -48,7 +47,6 @@ class ComputerBreaker
         i -= 1
       end
       i += 1
-      # p [@guess_pool.length, i]
     end
   end
 

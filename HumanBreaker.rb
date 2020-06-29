@@ -13,7 +13,16 @@ class HumanBreaker
     @name = name
   end
 
-  def guess_pattern()
+  def first_pattern
+    print "enter your guess, #{@name}: "
+    guess = gets.chomp.downcase
+    print "\n"
+    guess = check_guess(guess)
+    guess = string_to_array(guess)
+    char_to_color(guess)
+  end
+
+  def guess_pattern(_guess, _feedback)
     print "enter your guess, #{@name}: "
     guess = gets.chomp.downcase
     print "\n"

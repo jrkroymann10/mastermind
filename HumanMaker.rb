@@ -1,32 +1,66 @@
-# Computer CodeMaker
-class ComputerMaker
+class HumanMaker
+  @@COLOR_KEY = {
+    b: 'blue',
+    c: 'cyan',
+    g: 'green',
+    r: 'light_red',
+    m: 'magenta',
+    y: 'yellow'
+  }
   @@COLORS = ['cyan', 'magenta', 'yellow', 'green', 'light_red', 'blue']
   @@FB_COLORS = ['red', 'white']
-  attr_reader :pattern
   attr_accessor :feedback
+  attr_reader :COLOR_KEY
   def initialize
-    @pattern = select_pattern
     @feedback = []
+    @name = 'Human'
   end
 
   def select_pattern
-    color_array = []
-    for i in 0..3
-      temp = rand(0..5)
-      color_array.push(@@COLORS[temp])
-    end
-    color_array
+    print "enter your secret pattern, #{@name}: "
+    guess = gets.chomp.downcase
+    print "\n"
+    guess = check_guess(guess)
+    guess = string_to_array(guess)
+    guess = char_to_color(guess)
+    return guess
   end
 
   def give_feedback(guess, pattern)
     temp_array = check_red(guess, pattern)
     reduced = reduce(guess, pattern)
-    temp_fb = check_white(reduced[0], reduced[1] , temp_array[0])
+    temp_fb = check_white(reduced[0], reduced[1], temp_array[0])
     final_feedback = random_fb(temp_fb)
     final_feedback
   end
 
   private
+
+  def check_guess(guess)
+    count = 0
+    while count < 4
+      if !@@COLOR_KEY.key?(:"#{guess[count]}") || guess.length != 4
+        print "invalid pattern. try again, #{@name}: "
+        guess = gets.chomp
+        count = 0
+      else 
+        count += 1
+      end
+    end
+    guess
+  end
+  
+  def string_to_array(guess)
+    guess.split('')
+  end
+
+  def char_to_color(guess)
+    colors = []
+    for i in 0..3
+      colors.push(@@COLOR_KEY[:"#{guess[i]}"])
+    end
+    colors
+  end
 
   def check_red(guess, pattern)
     temp_array = []
