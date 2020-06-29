@@ -1,6 +1,7 @@
 require_relative 'DecodingBoard.rb'
 require_relative 'HumanBreaker.rb'
 require_relative 'ComputerMaker.rb'
+require_relative 'ComputerBreaker.rb'
 require 'colorize'
 
 # Mastermind Game
@@ -32,6 +33,7 @@ class Game
     poss_colors
     @game_board.full_view
     @game_board.set_pattern(@cpu_maker.pattern)
+    @game_board.full_view
   end
 
   def game_turn(turn, pattern)

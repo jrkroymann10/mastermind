@@ -12,7 +12,7 @@ class ComputerMaker
   def select_pattern
     color_array = []
     for i in 0..3
-      temp = (rand() * 5.499).round
+      temp = rand(0..5)
       color_array.push(@@COLORS[temp])
     end
     color_array
@@ -26,7 +26,6 @@ class ComputerMaker
     final_feedback
   end
 
-  private
 
   def check_red(guess, pattern)
     temp_array = []
@@ -75,3 +74,7 @@ class ComputerMaker
     final_fb
   end
 end
+
+x = ComputerMaker.new
+p x.check_red(['cyan', 'cyan', 'cyan', 'cyan'], ['blue', 'cyan', 'blue', 'cyan'])
+p x.reduce(['cyan', 'cyan', 'cyan', 'cyan'], ['blue', 'cyan', 'blue', 'cyan'])

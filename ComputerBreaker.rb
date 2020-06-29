@@ -1,88 +1,93 @@
-
+require 'pry'
 
 class ComputerBreaker
-  @@COLOR_KEY = {
-    b: 'blue',
-    c: 'cyan',
-    g: 'green',
-    r: 'light_red',
-    m: 'magenta',
-    y: 'yellow'
-  }
-
-  attr_reader :initial_pattern
-  attr_accessor :feedback, :final_guess, :guesses, :colors
-
+  attr_accessor :guess_pool, :red, :white
   def initialize
-    @colors = ['blue', 'cyan', 'green', 'light_red', 'magenta', 'yellow']
-    @initial_pattern = random_guess
-    @feedback = []
-    @guesses = [@initial_pattern, ]
-    @final_guess = []
+    @pool_nums = ['b', 'c', 'g', 'm', 'r', 'y']
+    @guess_pool = make_pool
+    @red = 0
+    @white = 0
   end
 
-  def random_guess
-    color_array = []
-    for i in 0..3
-      temp = (rand(0...(@colors.length - 0.5))).round
-      color_array.push(@colors[temp])
+  def rand_guess
+    temp = rand(0..(@guess_pool.length - 1))
+    @guess_pool[temp]
+  end
+
+  def make_guess(guess, feedback)
+    modify_pool(guess, feedback)
+    rand_guess
+  end
+
+  private
+
+  def make_pool
+    pool = []
+    for i in 0...@pool_nums.length
+      for j in 0...@pool_nums.length
+        for k in 0...@pool_nums.length
+          for l in 0...@pool_nums.length
+            temp = [@pool_nums[i], @pool_nums[j], @pool_nums[k], @pool_nums[l]]
+              pool.push(temp)
+          end
+        end
+      end
     end
-    color_array
+    pool
   end
 
-  def new_guess(feedback, turn)
-    hash_fb = fb_hash(feedback)
-    case_selection(fb_hash, feedback, turn)
+  def modify_pool(guess, feedback)
+    i = 0
+    while i < @guess_pool.length
+      p i
+      token = @guess_pool[i]
+      if !@guess_pool[i] 
+        break
+      elsif check_guess(guess, token) != feedback
+        @guess_pool.slice!(i, 1)
+        i -= 1
+      end
+      i += 1
+      # p [@guess_pool.length, i]
+    end
   end
 
-  def fb_hash(feedback = [])
-    count = Hash.new(0)
-    feedback.each { |fb| count[fb] += 1 }
+  def check_guess(guess, token)
+    red = check_red(guess, token)
+    temp = reduce(guess, token)
+    white = check_white(temp[0], temp[1])
+    [red, white]
+  end
+
+  def check_red(guess, token)
+    count = 0
+    for i in 0...guess.length
+      guess[i] == token[i] ? count += 1 : count = count
+    end
     count
   end
 
-  def case_selection(fb_hash, feedback, turn)
-    case
-      when fb_hash.empty? then case_one
-      when fb_hash[red] == 1 then
-      when fb_hash[white] == 1 then
-      when fb_hash[red] == 2 then
-      when fb_hash[white] == 2 then
-      when fb_hash[red] == 3 then
-      when fb_hash[white] == 3 then
-      when fb_hash[white] == 4 then
-      when fb_hash[red] == 1 && fb_hash[white] == 1 then
-      when fb_hash[red] == 1 && fb_hash[white] == 2 then
-      when fb_hash[red] == 1 && fb_hash[white] == 3 then
-      when fb_hash[red] == 2 && fb_hash[white] == 1 then
-      when fb_hash[red] == 2 && fb_hash[white] == 2 then
-      when fb_hash[red] == 3 && fb_hash[white] == 1 then
-    end
-  end
-
-  def case_one(turn)
-    remove_colors(@guesses[turn -1])
-    random_guess
-  end
-
-  def case_two(turn)
-
-  end
-
-  def remove_colors(guess) # guess = array of colors 
-    for i in 0..3
-      if @colors.include? guess[i]
-        temp = @colors.index(guess[i])
-        @colors.slice!(temp, 1)
+  def check_white(guess, token)
+    count = 0
+    for i in 0...guess.length
+      pos = token.index(guess[i])
+      if pos 
+        count += 1
+        token[pos] = ''
       end
     end
+    count
   end
 
-
+  def reduce(guess, token)
+    new_guess = []
+    new_token = []
+    for i in 0..3
+      if guess[i] != token[i]
+        new_guess.push(guess[i])
+        new_token.push(token[i])
+      end
+    end
+    [new_guess, new_token]
+  end
 end
-
-x = ComputerBreaker.new
-p x.colors
-p x.initial_pattern
-p x.new_guess([], 1)
-p x.colors
