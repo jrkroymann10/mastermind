@@ -119,7 +119,6 @@ class Game
     @guesses.push(guess)
     @maker.feedback = @maker.give_feedback(guess, pattern)
     @game_board.update_guess(turn, guess)
-    sleep(3)
     @game_board.update_feedback(turn, @maker.feedback, guess)
     @game_board.hidden_view
   end

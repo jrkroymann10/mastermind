@@ -22,6 +22,7 @@ class ComputerBreaker
     temp = rand(0..(@guess_pool.length - 1))
     guess = @guess_pool[temp]
     guess = char_to_color(guess)
+    sleep(1)
     guess
   end
 
