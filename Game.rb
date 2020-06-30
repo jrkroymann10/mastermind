@@ -5,10 +5,11 @@ require_relative 'ComputerMaker.rb'
 require_relative 'ComputerBreaker.rb'
 require 'colorize'
 require 'io/console'
+require 'pry'
 
 # Mastermind Game
 class Game
-  attr_accessor :turn, :maker, :breaker, :pattern
+  attr_accessor :turn, :maker, :breaker, :pattern, :guesses
   def initialize(human_name = 'Human')
     @human_breaker = HumanBreaker.new(human_name)
     @human_maker = HumanMaker.new
@@ -17,8 +18,8 @@ class Game
     @game_board = DecodingBoard.new
     @maker = []
     @breaker = []
-    @pattern
     @turn = 1
+    @guesses = []
   end
 
   def new_game
@@ -35,6 +36,8 @@ class Game
 
   def game_start
     puts ''
+    puts '                                         MASTERMIND                                         '.colorize(:cyan).on_white.underline
+    puts ''
     type = select_game
     set_players(type)
     puts ''
@@ -46,7 +49,6 @@ class Game
       @pattern = @maker.pattern
     end
     @game_board.set_pattern(@pattern)
-    @game_board.full_view
   end
 
   def select_game
@@ -109,9 +111,15 @@ class Game
   end
 
   def game_turn(turn, pattern)
-    guess = @breaker.first_pattern
+    if @turn == 1
+      guess = @breaker.first_pattern
+    else
+      guess = @breaker.guess_pattern(@guesses[@turn - 2], maker.feedback)
+    end
+    @guesses.push(guess)
     @maker.feedback = @maker.give_feedback(guess, pattern)
     @game_board.update_guess(turn, guess)
+    sleep(3)
     @game_board.update_feedback(turn, @maker.feedback, guess)
     @game_board.hidden_view
   end

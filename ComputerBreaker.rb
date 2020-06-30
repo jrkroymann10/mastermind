@@ -1,5 +1,15 @@
+require 'pry'
+
 class ComputerBreaker
-  attr_accessor :guess_pool, :red, :white
+  @@COLOR_KEY = {
+    b: 'blue',
+    c: 'cyan',
+    g: 'green',
+    r: 'light_red',
+    m: 'magenta',
+    y: 'yellow'
+  }
+  attr_accessor :guess_pool, :red, :white, :name
   def initialize
     @pool_nums = ['b', 'c', 'g', 'm', 'r', 'y']
     @guess_pool = make_pool
@@ -10,11 +20,14 @@ class ComputerBreaker
 
   def first_pattern
     temp = rand(0..(@guess_pool.length - 1))
-    @guess_pool[temp]
+    guess = @guess_pool[temp]
+    guess = char_to_color(guess)
+    guess
   end
 
-  def guess_pattern(guess, feedback)
-    modify_pool(guess, feedback)
+  def guess_pattern(guess, feedback = [])
+    col_guess = colors_to_char(guess)
+    modify_pool(col_guess, feedback)
     first_pattern
   end
 
@@ -36,13 +49,13 @@ class ComputerBreaker
   end
 
   def modify_pool(guess, feedback)
+    char_fb = translate_feeback(feedback)
     i = 0
     while i < @guess_pool.length
-      p i
       token = @guess_pool[i]
       if !@guess_pool[i] 
         break
-      elsif check_guess(guess, token) != feedback
+      elsif check_guess(guess, token) != char_fb
         @guess_pool.slice!(i, 1)
         i -= 1
       end
@@ -87,5 +100,34 @@ class ComputerBreaker
       end
     end
     [new_guess, new_token]
+  end
+
+  def char_to_color(guess)
+    colors = []
+    for i in 0..3
+      colors.push(@@COLOR_KEY[:"#{guess[i]}"])
+    end
+    colors
+  end
+
+  def colors_to_char(guess)
+    chars = []
+    for i in 0..3
+      chars.push(@@COLOR_KEY.key(guess[i]).to_s)
+    end
+    chars
+  end
+
+  def translate_feeback(feedback)
+    red = 0
+    white = 0
+    for i in 0..feedback.length
+      if feedback[i] == 'red'
+        red += 1
+      elsif feedback[i] == 'white'
+        white += 1
+      end
+    end
+    [red, white]
   end
 end
